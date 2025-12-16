@@ -1,0 +1,694 @@
+/* --- Global Variables (Theme Configuration) --- */
+:root {
+    /* YOUR REQUESTED COLORS */
+    --color-accent-blue: #1c77c3; /* Primary Accent */
+    --color-bg-dark: #1A181B;     /* Primary Dark Background */
+    
+    /* Dynamic Theme Variables (Defaulting to Dark) */
+    --theme-bg-main: var(--color-bg-dark);
+    --theme-bg-sidebar: #131214; /* Slightly different dark for depth */
+    --theme-bg-card: #28272a;    /* Card/Widget background in dark mode */
+    --theme-text-primary: #F5F5F5;
+    --theme-text-secondary: #AAAAAA;
+
+    /* Light Mode Variables */
+    --light-bg-main: #F5F5F5;
+    --light-bg-sidebar: #EFEFEF;
+    --light-bg-card: #FFFFFF;
+    --light-text-primary: #1A181B;
+    --light-text-secondary: #555555;
+
+    --transition-speed: 0.3s ease-in-out;
+    --sidebar-width-min: 70px;
+    --sidebar-width-max: 260px;
+    
+    /* WIDGET OPACITY CONTROL */
+    --widget-opacity: 0.3; 
+}
+
+/* --- LIGHT MODE Overrides (Applied to <body>) --- */
+body.light-mode {
+    --theme-bg-main: var(--light-bg-main);
+    --theme-bg-sidebar: var(--light-bg-sidebar);
+    --theme-bg-card: var(--light-bg-card);
+    --theme-text-primary: var(--light-text-primary);
+    --theme-text-secondary: var(--light-text-secondary);
+}
+
+/* --- BACKGROUND IMAGE STYLES --- */
+body.custom-bg {
+    background-color: transparent !important; 
+    background-size: cover; 
+    background-position: center center;
+    background-attachment: fixed; 
+    background-repeat: no-repeat;
+}
+body.custom-bg .atlas-main-layout {
+    background-color: transparent !important;
+}
+
+/* --- Global Reset & Body --- */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap'); 
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif; 
+    background-color: var(--theme-bg-main);
+    color: var(--theme-text-primary);
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    transition: background-color var(--transition-speed), color var(--transition-speed);
+}
+
+/* --- Main Layout Container --- */
+.atlas-main-layout {
+    display: flex;
+    min-height: 100vh; 
+    background-color: var(--theme-bg-main);
+    transition: background-color var(--transition-speed);
+}
+
+/* --- Sidebar Styling (Fixed & Expanded) --- */
+.atlas-sidebar {
+    width: var(--sidebar-width-min); 
+    background-color: var(--theme-bg-sidebar); 
+    flex-shrink: 0;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; 
+    transition: width var(--transition-speed), background-color var(--transition-speed);
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+    overflow-x: hidden;
+    z-index: 100; 
+}
+
+/* Sidebar Hover - EXPAND WIDTH */
+.atlas-sidebar:hover {
+    width: var(--sidebar-width-max); 
+}
+
+.atlas-logo {
+    font-size: 1.4em;
+    font-weight: 700;
+    text-align: center;
+    color: var(--color-accent-blue);
+    margin-bottom: 20px;
+    padding: 0 10px;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity var(--transition-speed);
+}
+.atlas-sidebar:hover .atlas-logo {
+    opacity: 1;
+}
+
+.atlas-sidebar nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    color: var(--theme-text-secondary);
+    text-decoration: none;
+    padding: 15px 20px;
+    transition: background-color var(--transition-speed), color var(--transition-speed);
+    font-size: 1em;
+    font-weight: 600;
+}
+
+.sidebar-link i {
+    font-size: 1.4em; 
+    width: 30px; 
+    margin-right: 15px; 
+    text-align: center;
+}
+
+.sidebar-link .link-text {
+    opacity: 0; 
+    transition: opacity calc(var(--transition-speed) * 1.5); 
+}
+.atlas-sidebar:hover .sidebar-link .link-text {
+    opacity: 1;
+}
+
+.sidebar-link:hover {
+    background-color: rgba(28, 119, 195, 0.1); 
+    color: var(--color-accent-blue); 
+}
+
+.sidebar-link.active {
+    color: var(--color-accent-blue); 
+    background-color: rgba(28, 119, 195, 0.2); 
+    border-left: 4px solid var(--color-accent-blue); 
+}
+.sidebar-footer {
+    margin-top: auto; 
+}
+
+/* --- Main Content Styling --- */
+.atlas-content {
+    flex-grow: 1;
+    padding: 40px;
+    overflow-y: auto; 
+}
+
+.atlas-content h2 {
+    color: var(--color-accent-blue);
+    font-size: 2.2em;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+.welcome-message {
+    font-size: 1.2em;
+    color: var(--theme-text-secondary);
+    margin-bottom: 30px;
+}
+
+.content-page { display: none; }
+.content-page.active { 
+    display: block; 
+    height: 100%; /* Important for proxy iframe to fill height */
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* --- GLOBAL ACTION BUTTONS --- */
+.action-btn {
+    padding: 10px 20px;
+    background-color: var(--color-accent-blue);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s, box-shadow 0.2s;
+}
+.action-btn:hover {
+    background-color: #1a6ab5;
+    box-shadow: 0 5px 15px rgba(28, 119, 195, 0.4);
+}
+
+
+/* --- WIDGET GRID / Liquid Glass Style --- */
+.widget-grid {
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+    gap: 30px; 
+    margin-top: 20px;
+    position: relative; 
+    min-height: 500px;
+}
+
+.widget {
+    /* Uses the dynamically controlled opacity variable */
+    background: rgba(255, 255, 255, var(--widget-opacity)); 
+    backdrop-filter: blur(8px); 
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(28, 119, 195, 0.3); 
+    border-radius: 15px; 
+    padding: 25px;
+    transition: all var(--transition-speed);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: grab; 
+    position: relative; /* Essential for placing controls */
+    padding-bottom: 40px; /* Space for the controls bar */
+}
+
+/* Style when dragging */
+.widget:active {
+    cursor: grabbing;
+}
+.widget.dragging {
+    opacity: 0.5;
+    border: 2px dashed var(--color-accent-blue);
+}
+
+/* Light Mode 'Liquid Glass' Adjustment */
+body.light-mode .widget {
+    background: rgba(0, 0, 0, var(--widget-opacity)); 
+    border: 1px solid rgba(28, 119, 195, 0.1);
+}
+
+.widget:hover {
+    box-shadow: 0 0 15px rgba(28, 119, 195, 0.4);
+    transform: translateY(-2px);
+}
+
+.widget h3 {
+    font-size: 1.4em;
+    color: var(--color-accent-blue);
+    margin-top: 0;
+    border-bottom: 1px solid var(--theme-text-secondary);
+    padding-bottom: 5px;
+    font-weight: 600;
+}
+.stat-value {
+    font-size: 4em; 
+    font-weight: 300;
+    margin: 10px 0;
+    color: var(--theme-text-primary);
+}
+.status-ok {
+    color: #4CAF50; 
+}
+
+
+/* --- WIDGET SIZING --- */
+.widget.size-1x1 {
+    grid-column: span 1;
+    grid-row: span 1;
+    min-height: 150px;
+}
+.widget.size-2x1 {
+    grid-column: span 2;
+    grid-row: span 1;
+    min-height: 150px;
+}
+.widget.size-1x2 {
+    grid-column: span 1;
+    grid-row: span 2;
+    min-height: 320px;
+}
+.widget.size-2x2 {
+    grid-column: span 2;
+    grid-row: span 2;
+    min-height: 320px;
+}
+.widget.size-3x1 {
+    grid-column: span 3;
+    grid-row: span 1;
+    min-height: 150px;
+}
+.widget.size-3x2 {
+    grid-column: span 3;
+    grid-row: span 2;
+    min-height: 320px;
+}
+
+/* --- WIDGET CONTROLS --- */
+.widget-controls {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    display: flex;
+    gap: 5px;
+}
+
+.control-btn {
+    background-color: rgba(28, 119, 195, 0.5); 
+    color: var(--theme-text-primary);
+    border: none;
+    border-radius: 5px;
+    padding: 5px 8px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color var(--transition-speed);
+}
+.control-btn:hover {
+    background-color: var(--color-accent-blue);
+}
+
+/* Lock widgets state */
+.widget-grid.locked .widget {
+    cursor: default; 
+    pointer-events: none; 
+}
+.widget-grid.locked .widget-controls {
+    display: none; 
+}
+
+
+/* --- WIDGET MANAGEMENT PAGE STYLES --- */
+.widget-management-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-top: 20px;
+}
+
+.widget-column h3 {
+    color: var(--theme-text-primary);
+    border-bottom: 2px solid var(--color-accent-blue);
+    padding-bottom: 5px;
+    margin-bottom: 20px;
+    font-size: 1.6em;
+}
+
+.widget-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; 
+}
+
+.widget-config-card {
+    background: var(--theme-bg-card);
+    border: 1px solid var(--theme-text-secondary);
+    border-radius: 10px;
+    padding: 15px;
+    transition: all var(--transition-speed);
+}
+.widget-config-card:hover {
+    box-shadow: 0 0 10px rgba(28, 119, 195, 0.2);
+}
+
+.widget-config-card h4 {
+    color: var(--color-accent-blue);
+    font-size: 1.2em;
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+.widget-config-card p {
+    color: var(--theme-text-secondary);
+    font-size: 0.9em;
+    margin-bottom: 10px;
+}
+.add-widget-btn {
+    padding: 8px 15px;
+    font-size: 0.9em;
+    background-color: var(--color-accent-blue);
+}
+
+.remove-widget-btn {
+    padding: 8px 15px;
+    font-size: 0.9em;
+    background-color: #CC2936; 
+}
+.remove-widget-btn:hover {
+    background-color: #99202a;
+}
+
+/* Appearance for Active Widgets */
+.active-widget {
+    border-left: 5px solid var(--color-accent-blue);
+    opacity: 0.7;
+}
+
+/* Global Widget Settings Styles */
+.settings-column .setting-group {
+    background: var(--theme-bg-card);
+    border: 1px solid var(--theme-text-secondary);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+.settings-column h4 {
+    color: var(--color-accent-blue);
+    margin-top: 0;
+}
+#widget-opacity-slider {
+    width: 100%;
+    margin: 10px 0;
+}
+#opacity-value {
+    color: var(--color-accent-blue);
+    font-weight: 600;
+}
+
+
+/* --- SETTINGS PAGE STYLES --- */
+.settings-group {
+    background: var(--theme-bg-card);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+.settings-group h3 {
+    color: var(--color-accent-blue);
+    margin-top: 0;
+}
+.file-upload-input {
+    margin: 15px 0;
+    padding: 10px;
+    border: 1px solid var(--theme-text-secondary);
+    background: var(--theme-bg-main);
+    color: var(--theme-text-primary);
+    border-radius: 8px;
+    width: 100%;
+}
+#bg-reset-btn {
+    margin-top: 10px;
+    background-color: #CC2936; 
+}
+#bg-reset-btn:hover {
+    background-color: #99202a;
+    box-shadow: 0 5px 15px rgba(204, 41, 54, 0.4);
+}
+
+
+/* --- ABOUT SERVICE STYLES --- */
+.about-info {
+    font-size: 1.1em;
+    padding: 20px;
+    background: var(--theme-bg-card);
+    border-radius: 10px;
+    border: 1px solid var(--theme-text-secondary);
+}
+.about-info h3 {
+    color: var(--color-accent-blue);
+    margin-top: 0;
+    border-bottom: 1px dotted var(--theme-text-secondary);
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+}
+#atlas-version {
+    color: #4CAF50; 
+    font-weight: 700;
+}
+
+
+/* --- ATLAS ARCADE STYLES --- */
+.game-controls {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+    align-items: center;
+}
+
+#game-search-input, #game-category-filter {
+    padding: 10px;
+    border: 1px solid var(--theme-text-secondary);
+    background: var(--theme-bg-card);
+    color: var(--theme-text-primary);
+    border-radius: 8px;
+    flex-grow: 1;
+    max-width: 300px;
+}
+#game-category-filter {
+    flex-grow: 0;
+    max-width: 200px;
+}
+
+.game-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.game-card {
+    background: var(--theme-bg-card);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+    display: flex;
+    flex-direction: column;
+}
+.game-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(28, 119, 195, 0.3);
+}
+
+.game-card h3 {
+    color: var(--color-accent-blue);
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+.game-category {
+    font-size: 0.8em;
+    color: var(--theme-text-secondary);
+    margin-bottom: 15px;
+}
+
+.play-btn {
+    margin-top: auto; 
+    text-align: center;
+    text-decoration: none;
+    background-color: var(--color-accent-blue);
+    color: #FFFFFF !important;
+    padding: 10px;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+}
+.play-btn:hover {
+    background-color: #1a6ab5;
+}
+
+
+/* --- ATLAS PROXY STYLES --- */
+.proxy-search-area {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    position: relative; 
+}
+
+#proxy-search-input {
+    flex-grow: 1;
+    padding: 15px;
+    font-size: 1.1em;
+    border: 1px solid var(--theme-text-secondary);
+    background: var(--theme-bg-card);
+    color: var(--theme-text-primary);
+    border-radius: 8px;
+    transition: box-shadow var(--transition-speed);
+}
+#proxy-search-input:focus {
+    box-shadow: 0 0 10px rgba(28, 119, 195, 0.4);
+    outline: none;
+}
+
+/* Styling for the suggestion dropdown */
+#proxy-suggestions {
+    position: absolute;
+    top: 100%; 
+    left: 0;
+    right: 90px; 
+    background: var(--theme-bg-card);
+    border: 1px solid var(--color-accent-blue);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    z-index: 50; 
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+.suggestion-item {
+    padding: 10px 15px;
+    cursor: pointer;
+    color: var(--theme-text-secondary);
+    font-size: 0.9em;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+.suggestion-item:last-child {
+    border-bottom: none;
+}
+.suggestion-item:hover {
+    background-color: rgba(28, 119, 195, 0.2);
+    color: var(--color-accent-blue);
+}
+
+.proxy-search-btn {
+    width: 80px;
+    background-color: var(--color-accent-blue);
+    color: white;
+    padding: 0 15px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.proxy-search-btn:hover {
+    background-color: #1a6ab5;
+}
+
+/* Quick Search Widget Input Style */
+.proxy-quick-input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid var(--theme-text-secondary);
+    background: transparent;
+    color: var(--theme-text-primary);
+    border-radius: 6px;
+}
+
+/* --- IFRAME STYLES (NEW) --- */
+.proxy-iframe-container {
+    flex-grow: 1; /* Makes the iframe container take up all remaining vertical space */
+    border: 2px solid var(--color-accent-blue);
+    border-radius: 10px;
+    margin-top: 20px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.proxy-top-bar {
+    background: var(--theme-bg-sidebar);
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--color-accent-blue);
+    border-radius: 8px 8px 0 0;
+}
+
+.proxy-close-btn {
+    background-color: #CC2936;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.proxy-close-btn:hover {
+    background-color: #99202a;
+}
+
+#proxy-address-display {
+    font-size: 0.9em;
+    color: var(--theme-text-secondary);
+}
+
+.proxy-iframe {
+    width: 100%;
+    flex-grow: 1; /* Makes the iframe take up all remaining space within its container */
+    border: none;
+    background: white; /* Default background for iframe content */
+    border-radius: 0 0 8px 8px;
+}
+
+
+/* --- ATLAS AI STYLES (Placeholder) --- */
+.ai-interaction-area {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 30px;
+}
+#ai-input {
+    width: 100%;
+    height: 150px;
+    padding: 15px;
+    margin-bottom: 10px;
+    border: 1px solid var(--theme-text-secondary);
+    background: var(--theme-bg-card);
+    color: var(--theme-text-primary);
+    border-radius: 8px;
+    resize: vertical;
+    font-size: 1em;
+}
+.ai-response-area {
+    background: var(--theme-bg-card);
+    padding: 20px;
+    border-radius: 10px;
+    border-left: 5px solid var(--color-accent-blue);
+}
+.ai-response-area h4 {
+    color: var(--color-accent-blue);
+    margin-top: 0;
+}
+.response-placeholder {
+    color: var(--theme-text-secondary);
+    font-style: italic;
+}
